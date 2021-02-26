@@ -24,17 +24,14 @@ def main(qty, spd, nic, r):
         ## How fast
         oSpeed = time.time() - timeStart
 
-        a = '~ Loaded in {0}'.format(fStop - fLoad)
-        b = '~ Ran in {0}'.format(oSpeed)
-        print(a)
-        print(b)
+        out = '~ {0} packets sent\n~ Packets loaded in {1}\n~ Ran in {2}\n'.format(qty, fStop - fLoad, oSpeed)
         with open('flowTester.log', 'w') as oFile:
-                  oFile.write(a + '\n' + b + '\n')
+                  oFile.write(out)
 
         if r is not None:
-            return a, b, frameStream
+            return out, frameStream
         else:
-            return a, b
+            return out
     except Exception as E:
         print(E)
 
@@ -75,10 +72,9 @@ if __name__ == '__main__':
 
     ## Run
     if args.r is not None:
-        a, b, pList = main(qty, spd, nic, args.r)
+        out, pList = main(qty, spd, nic, args.r)
     else:
-        a, b = main(qty, spd, nic, args.r)
+        out = main(qty, spd, nic, args.r)
 
     ## closeout
-    print(a)
-    print(b + '\n')
+    print(out)

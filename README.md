@@ -21,17 +21,15 @@ flowTester ~ Metrics for the unmeasured
 
 
 -i (interface)                == wlan0mon
--q (quantity)                 == 10000
+-q (quantity)                 == 10
 -r (return pcap as an object) == False
 -s (speed between packets     == 0.001
 
 Running ~ BE PATIENT ~ lower quantity for less packets to transmit if desired
 
-~ Loaded in 6.889185190200806
-~ Ran in 116.46933031082153
-~ Loaded in 6.889185190200806
-~ Ran in 116.46933031082153
-
+~ 1000 packets sent
+~ Packets loaded in 6.501736402511597
+~ Ran in 10.78224492073059
 ```
 
 # Scoring a metric
