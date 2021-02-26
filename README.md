@@ -40,7 +40,7 @@ In order to make this a universal benchmark technique, examples are needed.  To 
 frameTracer.py -i wlan1mon -x aa:bb:cc:dd:ee:ff -y ae:b5:87:b7:9a:09 -v
 ```
 
-Running the above and locked onto the channel in question; run frameTracer.  Switch back and forth between sender and receiver.  When receiver is complete; crtl + c frameTracer:
+Running the above and locked onto the channel in question; run frameTracer.  Switch back and forth between sender and sniffer.  When receiver is complete; crtl + c frameTracer:
 ```
 ^C
  [!] Saving 8508 frames --> mpTraffic.pcap
