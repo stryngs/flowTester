@@ -8,14 +8,20 @@ from scapy.all import *
 def main(qty, spd, nic, r):
     try:
         ## Timestamps and frame loading
-        fLoad = time.time()
-        frameStream = rdpcap('testflow.pcap')
+        
+        
+        """
+        Add a PcapReader loop to a [] and see the delta
+        """
+        
+        fStart = time.time()
+        frameStream = rdpcap('testflow.pcap', count = qty)
         fStop = time.time()
 
         ## Lazy stopwatch
         timeStart = time.time()
 
-        ## Fire teh missiles ~~~~~> Need to study byt3bl33d3r techniques for gofasters (https://byt3bl33d3r.github.io/mad-max-scapy-improving-scapys-packet-sending-performance.html)
+        ## Fire teh missiles
         sendp(frameStream[0:qty], iface = nic, inter = spd, verbose = 0)
 
         ## Received poor usage stats on both sendpfast and tcpreplay from the console -- not recommended for injection testing
@@ -24,9 +30,10 @@ def main(qty, spd, nic, r):
         ## How fast
         oSpeed = time.time() - timeStart
 
-        out = '~ {0} packets sent\n~ Packets loaded in {1}\n~ Ran in {2}\n'.format(qty, fStop - fLoad, oSpeed)
+        out = '~ {0} packets sent\n~ Packets loaded in {1}\n~ Ran in {2}\n'.format(qty, fStop - fStart, oSpeed)
+        l =  '{0}\n{1}\n{2}\n{3}\n'.format(qty, fStop - fStart, oSpeed, spd)
         with open('flowTester.log', 'w') as oFile:
-                  oFile.write(out)
+                  oFile.write(l)
 
         if r is not None:
             return out, frameStream

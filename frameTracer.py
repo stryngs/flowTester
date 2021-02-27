@@ -13,6 +13,7 @@ from scapy.all import *
 import packetEssentials as PE
 import os
 import sys
+import time
 
 class Hub(object):
     """Hub and spoke concept for following frame interactions"""
@@ -47,18 +48,18 @@ def main(args):
         else:
             pHandler = PE.hd.soloCap(args.x.lower(), verbose = verbosity)
 
-    ## pcap as an input
+    ## Stream input
     if args.f is None:
         pkts = sniff(iface = args.i, prn = pHandler, store = 0)
+        #eTime = time.time() ## Interesting bug and doesn't get run after sniff() ^ - gotta be a return thing - great pitfall lesson
+        #print(eTime)
+
+    ## pcap input
     else:
-        pkts = sniff(offline = args.f, prn = pHandler, store = 0)
-        if args.c is None: ## Need to add mutual exclusion for pcap read -or- the option
-            if len(PE.hd.soloList) > len(PE.hd.mpTrafficList):
-                wrpcap('solo.pcap', PE.hd.soloList)
-            else:
-                wrpcap('mpTraffic.pcap', PE.hd.soloTraffic)
-
-
+        pkts = sniff(offline = args.f, prn = pHandler, store = 0) ## Need to PcapReader this
+        #eTime = time.time() ## Interesting bug and doesn't get run after sniff() ^ - gotta be a return thing - great pitfall lesson
+        #print(eTime)
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'frameTracer')
     parser.add_argument('--graph', action = 'store_true', help = 'Visualize the data via plotly')
