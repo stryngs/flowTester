@@ -3,7 +3,9 @@
 import argparse
 import os
 import time
+from timeit import default_timer as timer
 from scapy.all import *
+from scapy.sendrecv import __gen_send as gs
 
 def main(qty, spd, nic, r):
     try:
@@ -22,7 +24,18 @@ def main(qty, spd, nic, r):
         timeStart = time.time()
 
         ## Fire teh missiles
-        sendp(frameStream[0:qty], iface = nic, inter = spd, verbose = 0)
+        with open('flowstats.log', 'w') as oFile:
+            s = conf.L2socket(iface = nic)
+            for frame in frameStream:
+                sTime = time.time()
+                gs(s, frame, verbose = False)
+                eTime = time.time()
+                tSpent = eTime - sTime
+                tSent = sTime + ((eTime - sTime) / 2)
+                oFile.write('{0} - {1} - {2} - {3}\n'.format(sTime, eTime, tSpent, tSent))
+                time.sleep(spd)
+        
+        #sendp(frameStream[0:qty], iface = nic, inter = spd, verbose = 0)
 
         ## Received poor usage stats on both sendpfast and tcpreplay from the console -- not recommended for injection testing
         #results = sendpfast(frameStream[0:10], pps = 1000, file_cache = True, iface = 'wlan0mon')
@@ -32,7 +45,7 @@ def main(qty, spd, nic, r):
 
         out = '~ {0} packets sent\n~ Packets loaded in {1}\n~ Ran in {2}\n'.format(qty, fStop - fStart, oSpeed)
         l =  '{0}\n{1}\n{2}\n{3}\n'.format(qty, fStop - fStart, oSpeed, spd)
-        with open('flowTester.log', 'w') as oFile:
+        with open('flowtester.log', 'w') as oFile:
                   oFile.write(l)
 
         if r is not None:

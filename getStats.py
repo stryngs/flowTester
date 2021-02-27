@@ -7,12 +7,14 @@ from scapy.all import *
 fDict = {}
 fCount = 1
 rdr = PcapReader('mpTraffic.pcap')
-for r in rdr:
-    fDict.update({fCount: float(r.time)})
-    fCount += 1
+with open('rx.stats', 'w') as oFile:
+    for r in rdr:
+        fDict.update({fCount: float(r.time)})
+        oFile.write('{0} - {1}\n'.format(fCount, float(r.time)))
+        fCount += 1
 
 ## Notate log
-with open('flowTester.log') as iFile:
+with open('flowtester.log') as iFile:
     fLog = iFile.read().splitlines()
 
 ## Time from start to finish
