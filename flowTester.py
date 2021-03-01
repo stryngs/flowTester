@@ -31,8 +31,7 @@ def main(qty, spd, nic, r):
                 gs(s, frame, verbose = False)
                 eTime = time.time()
                 tSpent = eTime - sTime
-                tSent = sTime + ((eTime - sTime) / 2)
-                oFile.write('{0} - {1} - {2} - {3}\n'.format(sTime, eTime, tSpent, tSent))
+                oFile.write('{0} - {1} - {2}\n'.format(sTime, eTime, tSpent))
                 time.sleep(spd)
         
         #sendp(frameStream[0:qty], iface = nic, inter = spd, verbose = 0)

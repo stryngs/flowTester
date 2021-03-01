@@ -64,10 +64,10 @@ aRts = abs(rts)
 rMax = max(aRts, rSpd)
 if rMax == aRts:
     adt = aRts - rSpd
-    arVal = 'tx higher'
+    arVal = 'tx higher value'
 else:
     adt = rSpd - aRts
-    arVal = 'rx higher'
+    arVal = 'rx higher value'
 
 # Output
 ## qty show
